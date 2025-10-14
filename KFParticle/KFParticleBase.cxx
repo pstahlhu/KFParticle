@@ -3438,7 +3438,7 @@ void KFParticleBase::MultQSQt( const float Q[], const float S[], float SOut[], c
    ** \param[in] kN - dimensionality of the matrices
    **/
 
-  float* mA = new float[kN*kN];
+  float mA[kN*kN];
   
   for( Int_t i=0, ij=0; i<kN; i++ ){
     for( Int_t j=0; j<kN; j++, ++ij ){
@@ -3446,7 +3446,6 @@ void KFParticleBase::MultQSQt( const float Q[], const float S[], float SOut[], c
       for( Int_t k=0; k<kN; ++k ) mA[ij]+= S[( k<=i ) ? i*(i+1)/2+k :k*(k+1)/2+i] * Q[ j*kN+k];
     }
   }
-    
   for( Int_t i=0; i<kN; i++ ){
     for( Int_t j=0; j<=i; j++ ){
       Int_t ij = ( j<=i ) ? i*(i+1)/2+j :j*(j+1)/2+i;
@@ -3454,8 +3453,6 @@ void KFParticleBase::MultQSQt( const float Q[], const float S[], float SOut[], c
       for( Int_t k=0; k<kN; k++ )  SOut[ij] += Q[ i*kN+k ] * mA[ k*kN+j ];
     }
   }
-  
-  if(mA) delete [] mA;
 }
 
 // 72-charachters line to define the printer border
